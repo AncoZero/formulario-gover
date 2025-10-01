@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recrutamento Facção Gover - MTA RP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23111" width="100" height="100"/><path d="M0 0L50 50M50 50L100 0M0 100L50 50M50 50L100 100" stroke="%23222" stroke-width="1"/></svg>');
+            background-size: cover;
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(20, 20, 20, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: slideBackground 20s linear infinite;
+        }
+
+        @keyframes slideBackground {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(50px); }
+        }
+
+        .logo {
+            font-size: 3.5em;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(255,0,0,0.8), 0 5px 10px rgba(0,0,0,0.8);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            font-weight: 700;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-desc {
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        .weapons-showcase {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            padding: 30px;
+            background: rgba(0,0,0,0.4);
+            border-bottom: 2px solid rgba(255,0,0,0.2);
+        }
+
+        .weapon-card {
+            background: linear-gradient(145deg, rgba(30,30,30,0.9), rgba(20,20,20,0.9));
+            padding: 20px 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid rgba(139,0,0,0.5);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .weapon-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(220,20,60,0.8);
+            box-shadow: 0 10px 30px rgba(220,20,60,0.4);
+        }
+
+        .weapon-img {
+            width: 100%;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 8px rgba(255,0,0,0.4));
+        }
+
+        .weapon-name {
+            font-weight: 700;
+            color: #DC143C;
+            font-size: 0.95em;
+            text-transform: uppercase;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            background: rgba(30,30,30,0.6);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #DC143C;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #DC143C;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .required {
+            color: #DC143C;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(139,0,0,0.5);
+            border-radius: 8px;
+            font-size: 1em;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #DC143C;
+            box-shadow: 0 0 15px rgba(220,20,60,0.4);
+            background: rgba(0,0,0,0.7);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        select option {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background: rgba(0,0,0,0.3);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 2px solid rgba(139,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .radio-item:hover {
+            border-color: #DC143C;
+            background: rgba(139,0,0,0.2);
+        }
+
+        .radio-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            accent-color: #DC143C;
+            cursor: pointer;
+        }
+
+        .radio-item label {
+            margin: 0;
+            cursor: pointer;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background: rgba(0,0,0,0.3);
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 2px solid rgba(139,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .checkbox-item:hover {
+            border-color: #DC143C;
+            background: rgba(139,0,0,0.2);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            accent-color: #DC143C;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.95em;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+            color: white;
+            padding: 20px 60px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 40px auto 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(220,20,60,0.4);
+            border: 2px solid rgba(220,20,60,0.5);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(220,20,60,0.6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .note {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9em;
+            margin-top: 25px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .weapons-showcase {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .logo {
+                font-size: 2.5em;
+            }
+
+            .subtitle {
+                font-size: 1.3em;
+            }
+
+            .form-content {
+                padding: 25px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">⚔️ FACÇÃO GOVER ⚔️</div>
+            <div class="subtitle">EDITAL DE RECRUTAMENTO</div>
+            <p class="header-desc">Junte-se à família mais temida do servidor MTA RP</p>
+        </div>
+
+        <div class="weapons-showcase">
+            <div class="weapon-card">
+                <img src="https://i.imgur.com/5RzKQYG.png" alt="Desert Eagle" class="weapon-img">
+                <div class="weapon-name">Desert Eagle</div>
+            </div>
+            <div class="weapon-card">
+                <img src="https://i.imgur.com/8kVpV3L.png" alt="AK-47" class="weapon-img">
+                <div class="weapon-name">AK-47</div>
+            </div>
+            <div class="weapon-card">
+                <img src="https://i.imgur.com/NsK7uQp.png" alt="M4" class="weapon-img">
+                <div class="weapon-name">M4</div>
+            </div>
+            <div class="weapon-card">
+                <img src="https://i.imgur.com/xS9pZqk.png" alt="Shotgun" class="weapon-img">
+                <div class="weapon-name">Shotgun</div>
+            </div>
+            <div class="weapon-card">
+                <img src="https://i.imgur.com/Y7uK2Lm.png" alt="Sniper" class="weapon-img">
+                <div class="weapon-name">Sniper</div>
+            </div>
+        </div>
+
+        <form id="recruitForm" action="https://formsubmit.co/luan.nando2000@gmail.com" method="POST" class="form-content">
+            <!-- Configurações FormSubmit -->
+            <input type="hidden" name="_subject" value="🔥 Nova Candidatura - Facção Gover MTA RP">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="box">
+            <input type="text" name="_honey" style="display:none">
+            
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">👤</span>
+                    IDENTIFICAÇÃO DO CANDIDATO
+                </h3>
+                
+                <div class="form-group">
+                    <label>NOME COMPLETO (IN-GAME) <span class="required">*</span></label>
+                    <input type="text" name="Nome_Completo" placeholder="Ex: Roberto Silva Santos" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>ID NO SERVIDOR <span class="required">*</span></label>
+                        <input type="number" name="ID_Servidor" placeholder="Ex: 12345" required>
+                    </div>
+                    <div class="form-group">
+                        <label>IDADE (PERSONAGEM) <span class="required">*</span></label>
+                        <input type="number" name="Idade_Personagem" placeholder="Ex: 25" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>DISCORD <span class="required">*</span></label>
+                        <input type="text" name="Discord" placeholder="Ex: usuario#1234" required>
+                    </div>
+                    <div class="form-group">
+                        <label>TELEFONE (IN-GAME)</label>
+                        <input type="text" name="Telefone_InGame" placeholder="Ex: 555-1234">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">🎮</span>
+                    EXPERIÊNCIA NO SERVIDOR
+                </h3>
+                
+                <div class="form-group">
+                    <label>HÁ QUANTO TEMPO JOGA NO SERVIDOR? <span class="required">*</span></label>
+                    <select name="Tempo_Servidor" required>
+                        <option value="">Selecione</option>
+                        <option value="Menos de 1 semana">Menos de 1 semana</option>
+                        <option value="1 semana a 1 mês">1 semana a 1 mês</option>
+                        <option value="1 a 3 meses">1 a 3 meses</option>
+                        <option value="3 a 6 meses">3 a 6 meses</option>
+                        <option value="Mais de 6 meses">Mais de 6 meses</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>JÁ FEZ PARTE DE ALGUMA FACÇÃO/GANGUE? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="faccaoSim" name="Ja_Foi_Faccao" value="Sim" required>
+                            <label for="faccaoSim">Sim</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="faccaoNao" name="Ja_Foi_Faccao" value="Não" required>
+                            <label for="faccaoNao">Não</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>SE SIM, DESCREVA SUA EXPERIÊNCIA</label>
+                    <textarea name="Experiencia_Faccao" placeholder="Conte sobre suas experiências anteriores, cargos que ocupou, missões realizadas, etc."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>QUAL CARGO VOCÊ PRETENDE? <span class="required">*</span></label>
+                    <select name="Cargo_Pretendido" required>
+                        <option value="">Selecione</option>
+                        <option value="Recruta">Recruta</option>
+                        <option value="Soldado">Soldado</option>
+                        <option value="Traficante">Traficante</option>
+                        <option value="Gerente de Operações">Gerente de Operações</option>
+                        <option value="Sub-Líder">Sub-Líder</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">🎯</span>
+                    HABILIDADES E CONHECIMENTOS
+                </h3>
+                
+                <div class="form-group">
+                    <label>QUAIS ATIVIDADES VOCÊ DOMINA? <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tiro" name="Habilidades" value="Combate/Tiro">
+                            <label for="tiro">Combate/Tiro</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="direcao" name="Habilidades" value="Direção">
+                            <label for="direcao">Direção</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="trafico" name="Habilidades" value="Tráfico">
+                            <label for="trafico">Tráfico</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="roubo" name="Habilidades" value="Roubos">
+                            <label for="roubo">Roubos</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="negocios" name="Habilidades" value="Negócios">
+                            <label for="negocios">Negócios</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="estrategia" name="Habilidades" value="Estratégia">
+                            <label for="estrategia">Estratégia</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>NÍVEL DE EXPERIÊNCIA EM COMBATE <span class="required">*</span></label>
+                    <select name="Nivel_Combate" required>
+                        <option value="">Selecione</option>
+                        <option value="Iniciante">Iniciante</option>
+                        <option value="Intermediário">Intermediário</option>
+                        <option value="Avançado">Avançado</option>
+                        <option value="Expert">Expert</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">⏰</span>
+                    DISPONIBILIDADE
+                </h3>
+                
+                <div class="form-group">
+                    <label>QUANTAS HORAS POR DIA VOCÊ JOGA? <span class="required">*</span></label>
+                    <select name="Horas_Por_Dia" required>
+                        <option value="">Selecione</option>
+                        <option value="1 a 2 horas">1 a 2 horas</option>
+                        <option value="3 a 4 horas">3 a 4 horas</option>
+                        <option value="5 a 6 horas">5 a 6 horas</option>
+                        <option value="Mais de 7 horas">Mais de 7 horas</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>QUAIS HORÁRIOS VOCÊ ESTÁ DISPONÍVEL? <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="manha" name="Horarios_Disponiveis" value="Manhã (06:00-12:00)">
+                            <label for="manha">Manhã (06:00-12:00)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tarde" name="Horarios_Disponiveis" value="Tarde (12:00-18:00)">
+                            <label for="tarde">Tarde (12:00-18:00)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="noite" name="Horarios_Disponiveis" value="Noite (18:00-00:00)">
+                            <label for="noite">Noite (18:00-00:00)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="madrugada" name="Horarios_Disponiveis" value="Madrugada (00:00-06:00)">
+                            <label for="madrugada">Madrugada (00:00-06:00)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">
+                    <span class="section-icon">💭</span>
+                    MOTIVAÇÃO E COMPROMISSO
+                </h3>
+                
+                <div class="form-group">
+                    <label>POR QUE VOCÊ QUER ENTRAR NA FACÇÃO GOVER? <span class="required">*</span></label>
+                    <textarea name="Motivacao" placeholder="Descreva suas motivações, objetivos e o que você pode contribuir para a facção..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>VOCÊ ESTÁ DISPOSTO A SEGUIR AS REGRAS DA FACÇÃO? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="regrasSim" name="Aceita_Regras" value="Sim, totalmente" required>
+                            <label for="regrasSim">Sim, totalmente</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="regrasNao" name="Aceita_Regras" value="Não tenho certeza" required>
+                            <label for="regrasNao">Não tenho certeza</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>O QUE VOCÊ ESPERA DA FACÇÃO GOVER?</label>
+                    <textarea name="Expectativas" placeholder="Conte-nos suas expectativas, o que busca em uma facção, etc."></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">🔥 ENVIAR CANDIDATURA 🔥</button>
+            
+            <p class="note">⚠️ ATENÇÃO: Todos os campos marcados com * são obrigatórios. Candidaturas incompletas serão desconsideradas.</p>
+        </form>
+    </div>
+</body>
+</html>
